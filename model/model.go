@@ -10,10 +10,3 @@ type Todo struct {
 	Description string
 	CreatedAt   time.Time
 }
-
-// func (o []Todo) CreateIterator() storage.Iterator {
-// 	return TodoIterator{
-// 		index:    0,
-// 		todoList: o,
-// 	}
-// }

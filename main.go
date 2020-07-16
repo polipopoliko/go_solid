@@ -3,7 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
+	"github.com/polipopoliko/todo/todo2/iterator"
+
+	"github.com/polipopoliko/todo/todo2/model"
 	"github.com/polipopoliko/todo/todo2/storage"
 )
 
@@ -24,51 +28,51 @@ func memoryFactory(id int) storage.Storage {
 
 func main() {
 	// var memStore = storage.NewMemory()
-	var store = memoryFactory(3)
+	var store = memoryFactory(1)
 
 	// create Todo
-	// if store.Create(model.Todo{
-	// 	Id:          1,
-	// 	Title:       "First Todo",
-	// 	Description: "My First Todo",
-	// 	CreatedAt:   time.Now(),
-	// }) != nil {
-	// 	log.Fatal("Fail to create todo")
-	// }
+	if store.Create(model.Todo{
+		Id:          1,
+		Title:       "First Todo",
+		Description: "My First Todo",
+		CreatedAt:   time.Now(),
+	}) != nil {
+		log.Fatal("Fail to create todo")
+	}
 
-	// if store.Create(model.Todo{
-	// 	Id:          2,
-	// 	Title:       "Second Todo",
-	// 	Description: "My Second Todo",
-	// 	CreatedAt:   time.Now(),
-	// }) != nil {
-	// 	log.Fatal("Fail to create todo")
-	// }
+	if store.Create(model.Todo{
+		Id:          2,
+		Title:       "Second Todo",
+		Description: "My Second Todo",
+		CreatedAt:   time.Now(),
+	}) != nil {
+		log.Fatal("Fail to create todo")
+	}
 
-	// if store.Create(model.Todo{
-	// 	Id:          3,
-	// 	Title:       "Third Todo",
-	// 	Description: "My Third Todo",
-	// 	CreatedAt:   time.Now(),
-	// }) != nil {
-	// 	log.Fatal("Fail to create todo")
-	// }
+	if store.Create(model.Todo{
+		Id:          3,
+		Title:       "Third Todo",
+		Description: "My Third Todo",
+		CreatedAt:   time.Now(),
+	}) != nil {
+		log.Fatal("Fail to create todo")
+	}
 
-	// obj, err := store.Detail(1)
-	// if err == nil {
-	// 	fmt.Println("Detail Todo with id", obj.Id, "title", obj.Title, "Description", obj.Description)
-	// } else {
-	// 	fmt.Println(err)
-	// }
+	obj, err := store.Detail(1)
+	if err == nil {
+		fmt.Println("Detail Todo with id", obj.Id, "title", obj.Title, "Description", obj.Description)
+	} else {
+		fmt.Println(err)
+	}
 
 	arrTodo, err := store.List()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	iterator := arrTodo.CreateIterator()
-	for iterator.HasNext() {
-		v := iterator.GetNext()
+	idp := iterator.TodoCollection{Todos: arrTodo}.CreateTodoCollection()
+	for idp.HasNext() {
+		v := idp.GetNext()
 		fmt.Println("Todo with id", v.Id, "title", v.Title, "Description", v.Description)
 	}
 
