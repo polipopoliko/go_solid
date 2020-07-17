@@ -7,6 +7,10 @@ type Iterator interface {
 	GetNext() model.Todo
 }
 
+type Collection interface {
+	CreateTodoCollection() Iterator
+}
+
 type TodoIterator struct {
 	index    int
 	todoList []model.Todo
@@ -26,10 +30,6 @@ func (o *TodoIterator) GetNext() model.Todo {
 		return todo
 	}
 	return model.Todo{}
-}
-
-type Collection interface {
-	CreateTodoCollection() Iterator
 }
 
 type TodoCollection struct {

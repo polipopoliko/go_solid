@@ -22,7 +22,29 @@ func ConnectDb(dbType, host, port, user, password, dbName, sslmode string) PqDat
 	if err != nil {
 		log.Fatal(err)
 	}
-	return PqDatabase{db: dbCon}
+	db := PqDatabase{db: dbCon}
+	// createTable(db)
+	return db
+}
+
+func checkIfTableExist(o PqDatabase) bool {
+	_, err := o.db.Query("SELECT * FROM TODOS;")
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func createTable(o PqDatabase) {
+	if checkIfTableExist(o) {
+		fmt.Println("Table todos exist")
+	} else {
+		_, err := o.db.Exec("CREATE TABLE TODOS (id int, title varchar(50), description varchar(150), created_at timestamp);")
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("Create table TODOS success")
+	}
 }
 
 func (o PqDatabase) Create(obj model.Todo) error {

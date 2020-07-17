@@ -19,7 +19,8 @@ func memoryFactory(id int) storage.Storage {
 	case 2:
 		s = storage.Mock{}
 	case 3:
-		s = storage.ConnectDb("postgres", "127.0.0.1", "5432", "postgres", "password", "storage_database", "disable")
+		// s = storage.ConnectDb("postgres", "127.0.0.1", "5432", "postgres", "password", "storage_database", "disable")
+		s = storage.ConnectDb("postgres", "postgres", "5432", "postgres", "password", "db", "disable")
 	default:
 		log.Fatal("Memory or Storage not found")
 	}
@@ -28,35 +29,35 @@ func memoryFactory(id int) storage.Storage {
 
 func main() {
 	// var memStore = storage.NewMemory()
-	var store = memoryFactory(1)
+	var store = memoryFactory(3)
 
 	// create Todo
 	if store.Create(model.Todo{
-		Id:          1,
-		Title:       "First Todo",
-		Description: "My First Todo",
+		Id:          100,
+		Title:       "Hundreds of Todo",
+		Description: "My Tenth Todo",
 		CreatedAt:   time.Now(),
 	}) != nil {
 		log.Fatal("Fail to create todo")
 	}
 
-	if store.Create(model.Todo{
-		Id:          2,
-		Title:       "Second Todo",
-		Description: "My Second Todo",
-		CreatedAt:   time.Now(),
-	}) != nil {
-		log.Fatal("Fail to create todo")
-	}
+	// if store.Create(model.Todo{
+	// 	Id:          101,
+	// 	Title:       "Eleven Todo",
+	// 	Description: "My Eleventh Todo",
+	// 	CreatedAt:   time.Now(),
+	// }) != nil {
+	// 	log.Fatal("Fail to create todo")
+	// }
 
-	if store.Create(model.Todo{
-		Id:          3,
-		Title:       "Third Todo",
-		Description: "My Third Todo",
-		CreatedAt:   time.Now(),
-	}) != nil {
-		log.Fatal("Fail to create todo")
-	}
+	// if store.Create(model.Todo{
+	// 	Id:          12,
+	// 	Title:       "Twelve Todo",
+	// 	Description: "My Twelfth Todo",
+	// 	CreatedAt:   time.Now(),
+	// }) != nil {
+	// 	log.Fatal("Fail to create todo")
+	// }
 
 	obj, err := store.Detail(1)
 	if err == nil {
@@ -79,5 +80,4 @@ func main() {
 	// for _, v := range arrTodo {
 	// 	fmt.Println("Todo with id", v.Id, "title", v.Title, "Description", v.Description)
 	// }
-
 }
