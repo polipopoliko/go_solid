@@ -12,9 +12,11 @@ services:
             POSTGRES_PASSWORD: password
             POSTGRES_DB: db
 
-    go:
-        image: go_db:latest
-        build: $GOPATH/src/github.com/polipopoliko/todo/todo2
+    go_app:
+        image: golang:1.14.4-alpine
+        volumes: 
+            - .:/go/src/github.com/polipopoliko/todo/todo2
+        working_dir: /go/src/github.com/polipopoliko/todo/todo2
         depends_on: 
             - postgres
         command: go run main.go
